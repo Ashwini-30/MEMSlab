@@ -7,10 +7,31 @@
   </head>
   <body>
     <a-scene>
-      <a-sky src="c7.jpg" rotation="0 -90 0"></a-sky>
 
-      <a-entity laser-controls="hand: right"></a-entity>
-      <a-camera></a-camera>
+      <!-- 360° background for room 2 -->
+      <a-sky src="c7.jpg" rotation="0 180 0"></a-sky>
+
+      <!-- CLICKABLE HOTSPOT back to room1 -->
+      <a-sphere 
+        position="0 1 -2"
+        radius="0.3"
+        color="blue"
+        class="clickable"
+        onclick="window.location.href='index.html'">
+      </a-sphere>
+
+      <!-- CAMERA + CONTROLLER RAYCASTERS -->
+      <a-entity id="rig">
+        <a-camera raycaster="objects: .clickable">
+          <a-cursor></a-cursor>
+        </a-camera>
+
+        <a-entity 
+          laser-controls="hand: right" 
+          raycaster="objects: .clickable">
+        </a-entity>
+      </a-entity>
+
     </a-scene>
   </body>
 </html>
