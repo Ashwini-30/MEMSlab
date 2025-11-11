@@ -2,26 +2,34 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Test Scene</title>
+    <title>Room 1</title>
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
   </head>
   <body>
     <a-scene>
-      
-      <!-- 360 image -->
-      <a-sky src="vrimg.png" rotation="0 180 0"></a-sky>
 
-      <!-- huge visible test hotspot -->
+      <!-- 360° background -->
+      <a-sky src="room1.jpg" rotation="0 180 0"></a-sky>
+
+      <!-- CLICKABLE HOTSPOT -->
       <a-sphere 
         position="0 1 -2"
         radius="0.3"
-        color="red">
+        color="red"
+        class="clickable"
+        onclick="window.location.href='room2.html'">
       </a-sphere>
 
-      <!-- camera + controller -->
+      <!-- CAMERA + CONTROLLER RAYCASTERS -->
       <a-entity id="rig">
-        <a-camera></a-camera>
-        <a-entity laser-controls="hand: right"></a-entity>
+        <a-camera raycaster="objects: .clickable">
+          <a-cursor></a-cursor>
+        </a-camera>
+
+        <a-entity 
+          laser-controls="hand: right" 
+          raycaster="objects: .clickable">
+        </a-entity>
       </a-entity>
 
     </a-scene>
