@@ -1,37 +1,62 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Room 1</title>
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  </head>
-  <body>
-    <a-scene>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>IITM MEMS Lab — Clean VR Controls</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <style>
+    html,body { margin:0; height:100%; background:#000; }
+    #fade { position:absolute; left:0; top:0; right:0; bottom:0; background:#000; pointer-events:none; opacity:0; transition:opacity .35s ease; z-index:9; }
+    #fade.on { opacity:1; pointer-events:auto; }
+  </style>
+</head>
+<body>
+  <div id="fade"></div>
 
-      <!-- 360° background -->
-      <a-sky src="vrimg.png" rotation="0 180 0"></a-sky>
+  <a-scene vr-mode-ui="enabled: true" embedded>
 
-      <!-- CLICKABLE HOTSPOT -->
-      <a-sphere 
-        position="0 1 -2"
-        radius="0.3"
-        color="red"
-        class="clickable"
-        onclick="window.location.href='room2.html'">
-      </a-sphere>
+    <!-- SKY / PANORAMA -->
+    <a-sky id="sky" radius="500" rotation="0 -90 0"></a-sky>
 
-      <!-- CAMERA + CONTROLLER RAYCASTERS -->
-      <a-entity id="rig">
-        <a-camera raycaster="objects: .clickable">
-          <a-cursor></a-cursor>
-        </a-camera>
-
-        <a-entity 
-          laser-controls="hand: right" 
-          raycaster="objects: .clickable">
+    <!-- CAMERA + CURSOR (mouse + gaze) -->
+    <a-entity id="cameraRig">
+      <a-entity id="camera" camera look-controls position="0 1.6 0">
+        <a-entity id="cursor" cursor="fuse:false; rayOrigin:mouse"
+                  raycaster="objects: .clickable"
+                  position="0 0 -0.6"
+                  geometry="primitive: ring; radiusInner:0.02; radiusOuter:0.035"
+                  material="shader:flat; color:#fff">
         </a-entity>
       </a-entity>
+    </a-entity>
 
-    </a-scene>
-  </body>
+    <!-- FLOOR LOGO (fixed bottom center) -->
+    <!-- rotation -90 makes it flat on floor; keep position world-fixed so it stays same in every panorama -->
+    <a-plane id="floorLogo"
+             position="0 0 0"
+             rotation="-90 0 0"
+             width="1.4" height="1.4"
+             material="transparent: true; opacity: 1"
+             src="">
+    </a-plane>
+
+    <!-- NAV PANEL (buttons sit above the logo) -->
+    <a-entity id="navPanel" position="0 0.22 -1.2">
+      <a-plane id="btnPrev" class="clickable" width="1.0" height="0.8"
+               position="-4 0 0" rotation="-90 0 0" material="transparent:true" visible="false"></a-plane>
+
+      <a-plane id="btnEnter" class="clickable" width="1.0" height="0.9"
+               position="0 0 0" rotation="-90 0 0" material="transparent:true" visible="false"></a-plane>
+
+      <a-plane id="btnNext" class="clickable" width="1.0" height="0.8"
+               position="4 0 0" rotation="-90 0 0" material="transparent:true" visible="false"></a-plane>
+    </a-entity>
+
+    <a-entity light="type: ambient; intensity: 0.9"></a-entity>
+
+  </a-scene>
+
+  <script src="tour.js"></script>
+</body>
 </html>
